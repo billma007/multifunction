@@ -1,0 +1,8 @@
+PyQt5
+pyttsx3==2.71
+pillow
+tqdm
+pyperclip
+you-get
+requests
+ffmpeg-python
