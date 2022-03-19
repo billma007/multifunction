@@ -1,7 +1,5 @@
-from http import HTTPStatus
-from http.client import HTTPS_PORT
-import sys
-from PyQt5.QtWidgets import QWidget, QApplication, qApp
+from sys import argv
+from PyQt5.QtWidgets import QWidget, QApplication
 from PyQt5.QtCore import Qt
 from Ui_weather import Ui_Form
 from query import *
@@ -64,8 +62,11 @@ class Weather(QWidget, Ui_Form):
 
 def weathermain():
     TxtCreate()
-    app = QApplication(sys.argv)
+    app = QApplication(argv)
     weather = Weather()
     weather.show()
-    sys.exit(app.exec_())
-
+    app.quit()
+    weathergoback()
+def weathergoback():
+    from gobackmain import gobackmain
+    gobackmain()

@@ -1,11 +1,8 @@
-import requests
-import sys,os
-import time
-from datetime import datetime
-import pytz
+from requests import get
+import os
 # 注意：pyttsx3一定要是2.72版本，高于2.72版本一定会出错！
 import pyttsx3 # 语音
-import webbrowser
+from webbrowser import open_new
 
 # speaking_open:判断用户是否打开了语音输出功能
 speaking_open=False
@@ -125,13 +122,13 @@ def robot_main():
                 if a=="-c":
                     changedata()
                 elif a=="-git":
-                    webbrowser.open_new('https://github.com/billma007/mgchatrobot2')
+                    open_new('https://github.com/billma007/mgchatrobot2')
                 elif a=="-mit":
                     mitlicense()
                 elif a=="-contact":
                     contactau()
                 elif a=="-official":
-                    webbrowser.open_new('https://billma.top')
+                    open_new('https://billma.top')
                 elif a=="-help" or a=="-about":
                     help_about()
                 elif a=="-cls":
@@ -143,7 +140,7 @@ def robot_main():
                     print("Error:入参错误")
             else:
                 url='https://api.ownthink.com/bot?appid=9ffcb5785ad9617bf4e64178ac64f7b1&spoken=%s'%a
-                te=requests.get(url).json()
+                te=get(url).json()
                 data=te['data']['info']['text']
                 print(data)
                 if speaking_open==True:

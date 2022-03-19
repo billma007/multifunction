@@ -6,3 +6,4 @@ pyperclip
 you-get
 requests
 ffmpeg-python
+playsound==1.7.2

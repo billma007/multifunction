@@ -154,15 +154,7 @@ class Download:
 def main():
     app = Download()
     app.event()
-def waiting():
-    print("启动较慢，请耐心等候.....")
-    for i in tqdm(range(1, 101)):
-        if jjjjj==False:
-            time.sleep(0.05)
-    print("欢迎使用！")
+
 def videodownloadmain():
-    main_thread=Thread(target=waiting)
-    waiting_thread=Thread(target=main)
-    waiting_thread.start()
-    main_thread.start()
+    main()
     

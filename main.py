@@ -1,8 +1,10 @@
 import io
+import multiprocessing
+from time import sleep
 from urllib.request import urlopen
 import icon
 import tkinter as tk
-import os
+from os import remove
 from base64 import b64decode
 from PIL import Image,ImageTk
 from chatmain import cometochat
@@ -11,8 +13,17 @@ from translategui import translateguimain
 from video import videodownloadmain
 from change import changemain
 from webbrowser import open_new
-import ctypes
- 
+from ctypes import windll
+from tqdm import tqdm
+from playsound import playsound,PlaysoundException
+kkkkk=False
+def playmusic():
+    try:
+        while True:
+            playsound("https://cdn.jsdelivr.net/gh/billma007/imagesave/multimusic.mp3")
+    except PlaysoundException or Exception:
+        print("PLAY ERROR")
+        
 def go_to_chatrobot(mainroot):
     print("go to chatrobot...")
     mainroot.destroy()
@@ -33,15 +44,16 @@ def go_to_videochange(mainroot):
     print("go to videochange...")
     mainroot.destroy()
     changemain()
-def mainmake():
+def mainmake(musicplay=None):
+    windll.user32.ShowWindow( windll.kernel32.GetConsoleWindow(), 6)
     mainroot = tk.Tk()
-    mainroot.title("马哥多功能程序")
+    mainroot.title("马哥多功能程序-------版本1.0.1正式版")
     mainroot.geometry('1000x673')
     mainroot.resizable(False,False)
     with open('tmp.ico','wb') as tmp:
         tmp.write(b64decode(icon.Icon().ig))
     mainroot.iconbitmap('tmp.ico')
-    os.remove("tmp.ico")
+    remove("tmp.ico")
 
     #---------------图片------------------#
     url = "https://cdn.jsdelivr.net/gh/billma007/imagesave/videodownloadimage.jpg"
@@ -71,7 +83,7 @@ def mainmake():
         command=lambda:go_to_chatrobot(mainroot))
 
     button_weatherui = tk.Button(mainroot, 
-        text='天气查询系统',      
+        text='天气查询系统',
         width=50, height=2, 
         command=lambda:go_to_weather(mainroot))
     button_transui = tk.Button(mainroot, 
@@ -87,13 +99,17 @@ def mainmake():
         width=50, height=2,fg="red",
         command=lambda:go_to_videochange(mainroot))
     button_opengithub = tk.Button(mainroot, 
-        text='GitHub开源地址',      
-        width=24, height=2,
+        text='GitHub开源地址\n使用帮助',      
+        width=14, height=2,
         command=lambda:open_new("https://github.com/billma007/multifunction"))
     button_openblog = tk.Button(mainroot, 
         text='作者博客',      
-        width=24, height=2,
+        width=14, height=2,
         command=lambda:open_new("https://billma.top"))
+    button_stopmusic = tk.Button(mainroot, 
+        text='停止音乐',      
+        width=14, height=2,
+        command=lambda:musicplay.terminate())
     labelmore = tk.Label(mainroot,text="""Copyright (C) 2022 BillMa007|BillMa007 版权所有
 本软件总体采用GNU GPL3.0版权协议
 各部分采用不同的版权协议(MIT+GNU GPL2)
@@ -108,10 +124,25 @@ def mainmake():
     button_transui.place(x=0,y=240)
     button_videodown.place(x=0,y=310)
     button_videochange.place(x=0,y=380)
-    button_openblog.place(x=180,y=450)
+    button_openblog.place(x=120,y=450)
+    button_stopmusic.place(x=240,y=450)
     button_opengithub.place(x=0,y=450)
     labelmore.place(x=0,y=520)
     labelthank.place(x=50,y=600)
+    global kkkkk
+    kkkkk=True
     mainroot.mainloop()
-ctypes.windll.user32.ShowWindow( ctypes.windll.kernel32.GetConsoleWindow(), 6)
-mainmake()
+def waiting_main():
+    print("启动较慢，请耐心等候.....")
+    for i in tqdm(range(1, 101)):
+        if kkkkk==False:
+            sleep(0.05)
+if __name__ == "__main__":
+    multiprocessing.freeze_support()
+    main_thread=multiprocessing.Process(target=waiting_main)
+    global musicplay
+    musicplay=multiprocessing.Process(target=playmusic)
+    main_thread.start()
+    musicplay.start()
+    mainmake(musicplay)
+
