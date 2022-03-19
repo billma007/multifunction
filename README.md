@@ -53,7 +53,7 @@ This program is divided into the following parts, each of which already contains
   - [.gitignore](.gitignore) ---.gitignore
   - [LICENSE](LICENSE) ---GNU GPL3.0
 
-## 更新日志
+## Update log
 
 - 2021/7/1 Start to design chatbot
 - 2022/1/21 Start designing chat and translation system
@@ -64,7 +64,7 @@ This program is divided into the following parts, each of which already contains
 - 2022/3/18 I have nothing to do and I made a music play. The music is Phigros' curtain call.
 - 2022/3/19 Bug fixed
 
-## 关于作者
+## About
 
 A student in Suzhou,People's Republic of China.An OIer.LIKE C++,C and Python.
 
