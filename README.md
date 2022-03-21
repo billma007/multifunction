@@ -69,7 +69,7 @@ This program is divided into the following parts, each of which already contains
 A student in Suzhou,People's Republic of China.An OIer.LIKE C++,C and Python.
 
 - QQ:36937975
-- Twitter:@billma6688
+- Twitter:@billma007cool
 - Facebook/Instagram:billma007
 - CodeForces/USACO/AtCoder:billma007(useless)
 - Email:maboning237103015@163.com
