@@ -19,6 +19,15 @@ python main.py
 pip install pyinstaller
 pyinstaller main.spec
 ```
+## 注意点
+
+- 1.pyttsx3要1.71版本，否则无法读取中文
+- 2.playsound要1.2.2版本，否则无法连接到网络
+- 3.编译时you-get要-hidden--import，详情[点击这里](https://github.com/billma007/videodownloadergui#how-to-compile)
+- 4.如果报错：`"xxx" has no attribute "Buffer",请到you-get.common里面把下面这句话注释掉即可
+```py
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf8')
+```
 
 ## 结构架次
 
