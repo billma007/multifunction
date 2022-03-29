@@ -1,0 +1,1 @@
+pyinstaller --hidden-import=you_get.cli_wrapper --hidden-import=you_get.processor --hidden-import=you_get.utl --hidden-import=you_get.extractors --add-data=".\datasets;pyecharts\datasets\." --add-data=".\templates;pyecharts\render\templates\." -i ico.ico -F -w main.py

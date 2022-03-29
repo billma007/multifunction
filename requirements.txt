@@ -1,9 +1,10 @@
-PyQt5
 pyttsx3==2.71
 pillow
-tqdm
 pyperclip
 you-get
 requests
-ffmpeg-python
-playsound==1.7.2
+playsound==1.2.2
+pyecharts
+openpyxl
+pandas
+tqdm

@@ -15,7 +15,7 @@ global paste
 paste=""
 class Translate():
     def __init__(self):
-        self.window = tk.Tk()  #创建window窗口
+        self.window = tk.Toplevel()  #创建window窗口
         self.window.title("马哥翻译器GUI1.1")  # 定义窗口名称
         self.window.resizable(0,0)  # 禁止调整窗口大小
         self.input = tk.Entry(self.window, width=80)  # 创建一个输入框,并设置尺寸
@@ -30,7 +30,6 @@ class Translate():
         self.c_button3 = tk.Button(self.window, text='本代码开源，点击前往GitHub了解更多',relief=tk.RAISED,width=24, height=1, command=self.GoToGitHub)
         # 添加一个按钮用于将内容复制到剪贴板
         self.c_button5 = tk.Button(self.window, text='将结果复制到剪贴板',relief=tk.RAISED,width=16, height=1, command=self.copyit)
-        self.c_button6 = tk.Button(self.window, text='返回主菜单',relief=tk.RAISED,width=16, height=1, command=self.gobackto)
 
         # 添加一张图标
         # self.image_file = tk.PhotoImage(file='py128.png')
@@ -45,7 +44,6 @@ class Translate():
         self.c_button2.grid(row=0,column=3,ipadx=0)
         self.c_button3.grid(row=1,column=1,ipadx=0)
         self.c_button5.grid(row=3,column=1,ipadx=10)
-        self.c_button6.grid(row=3,column=2,ipadx=10)
         # self.label_image.grid(row=1, column=1,columnspan=3)
 
     def fanyi(self):
@@ -97,10 +95,6 @@ class Translate():
     def copyit(self):
         print(paste)
         pyperclip.copy(paste)# 复制到剪贴板
-    def gobackto(self):
-        self.window.destroy()
-        from gobackmain import gobackmain
-        gobackmain()
 def translateguimain():
     t = Translate()
     t.gui_arrang()

@@ -1,153 +1,176 @@
+import base64
+import sys
+import tkinter as tk
+import webbrowser
 from requests import get
 import os
 # 注意：pyttsx3一定要是2.72版本，高于2.72版本一定会出错！
 import pyttsx3 # 语音
-from webbrowser import open_new
-
+import icon
+import time
 # speaking_open:判断用户是否打开了语音输出功能
-speaking_open=False
-# 判断settings.txt是否存在
-def setting_if_exist():
-    filename="settings.txt"
-    if not os.path.exists(filename):
-        return False
-    else :
-        return True
+# speaking_open=False
+# # 判断settings.txt是否存在
+# def setting_if_exist():
+#     filename="settings.txt"
+#     if not os.path.exists(filename):
+#         return False
+#     else :
+#         return True
 # writingdata函数用法：
 # 无入参
 # 无返回值
 # 导入settings.txt中用户保存的speaking_open数据，并在settings.txt没有数据的时候进行数据初始化
-def writingdata():
-    global speaking_open
-    if setting_if_exist():
-        with open("settings.txt","r",encoding="utf-8") as settings_read:
-            s=settings_read.read()
-            settings_read.close()
-        if s=="SPEAKING=TRUE":
-            speaking_open=True
-            return
-        elif s=="SPEAKING=FALSE":
-            speaking_open=False
-            return
-        else :
-            with open("settings.txt","w",encoding="utf-8") as settings:
-                s_input=input("数据文件读取出现错误，请输入你是否要开启语音输入？y/n,非法输入则为n")
-                if s_input in ['y','yes','是','True','true','Yes']:
-                    settings.write("SPEAKING=TRUE")
-                    speaking_open=True
-                    settings.close()
-                    return
-                else :
-                    settings.write("SPEAKING=FALSE")
-                    speaking_open=False
-                    settings.close()
-                    return
-    else:
-        with open("settings.txt","w",encoding="utf-8") as settings:
-            s_input=input("首次使用该软件，请输入你是否要开启语音输入？y/n,非法输入则为n")
-            if s_input in ['y','yes','是','True','true','Yes']:
-                settings.write("SPEAKING=TRUE")
-                speaking_open=True
-                settings.close()
-                return
-            else :
-                settings.write("SPEAKING=FALSE")
-                speaking_open=False
-                settings.close()
-                return
-# 在用户输入-c即主动要求修改语音输出配置时进行修改
-def changedata():
-        with open("settings.txt","w",encoding="utf-8") as settings:
-            s_input=input("请输入你是否要开启语音输入？y/n,非法输入则为n：")
-            if s_input in ['y','yes','是','True','true','Yes']:
-                settings.write("SPEAKING=TRUE")
-                speaking_open=True
-                settings.close()
+# def writingdata():
+#     global speaking_open
+#     if setting_if_exist():
+#         with open("settings.txt","r",encoding="utf-8") as settings_read:
+#             s=settings_read.read()
+#             settings_read.close()
+#         if s=="SPEAKING=TRUE":
+#             speaking_open=True
+#             return
+#         elif s=="SPEAKING=FALSE":
+#             speaking_open=False
+#             return
+#         else :
+#             with open("settings.txt","w",encoding="utf-8") as settings:
+#                 s_input=input("数据文件读取出现错误，请输入你是否要开启语音输入？y/n,非法输入则为n")
+#                 if s_input in ['y','yes','是','True','true','Yes']:
+#                     settings.write("SPEAKING=TRUE")
+#                     speaking_open=True
+#                     settings.close()
+#                     return
+#                 else :
+#                     settings.write("SPEAKING=FALSE")
+#                     speaking_open=False
+#                     settings.close()
+#                     return
+#     else:
+#         with open("settings.txt","w",encoding="utf-8") as settings:
+#             s_input=input("首次使用该软件，请输入你是否要开启语音输入？y/n,非法输入则为n")
+#             if s_input in ['y','yes','是','True','true','Yes']:
+#                 settings.write("SPEAKING=TRUE")
+#                 speaking_open=True
+#                 settings.close()
+#                 return
+#             else :
+#                 settings.write("SPEAKING=FALSE")
+#                 speaking_open=False
+#                 settings.close()
+#                 return
+# # 在用户输入-c即主动要求修改语音输出配置时进行修改
+# def changedata():
+#         with open("settings.txt","w",encoding="utf-8") as settings:
+#             s_input=input("请输入你是否要开启语音输入？y/n,非法输入则为n：")
+#             if s_input in ['y','yes','是','True','true','Yes']:
+#                 settings.write("SPEAKING=TRUE")
+#                 speaking_open=True
+#                 settings.close()
 
-                return
-            else :
-                settings.write("SPEAKING=FALSE")
-                speaking_open=False
-                settings.close()
-                return
+#                 return
+#             else :
+#                 settings.write("SPEAKING=FALSE")
+#                 speaking_open=False
+#                 settings.close()
+#                 return
+class chatmainclass:
+    def openclose(self):
+        if self.openfinal==True:
+            self.openfinal=False
+        else:
+            self.openfinal=True
+    def apimake(self):
+        self.write()
+        self.data='''本部分采用GNU GPL2.0 LICENSE
+软件架构由Billma007版权所有
+人工智能聊天API所有者为图灵机器人
+在此表示感谢。'''
 
+    def __init__(self):
+        sys.stdout=self
+        sys.stderr=self
+        self.title = '马哥聊天机器人GUI1.1'
+        self.root = tk.Toplevel()
+        self.root.title(self.title) 
+        with open('tmp.ico','wb') as tmp:
+            tmp.write(base64.b64decode(icon.Icon().ig))
+        self.root.iconbitmap('tmp.ico')
+        os.remove("tmp.ico")
+        self.a = tk.StringVar()
+        self.openfinal = False
+        self.root.resizable(False, False)
+        self.data=""
+        menu = tk.Menu(self.root)
+        self.root.config(menu=menu)
+        menu.add_command(label='GitHub开源地址', command=lambda:webbrowser.open_new('https://github.com/billma007/mgchatrobot2'))
+        menu.add_command(label="API",command=self.apimake)
+        frame_1 = tk.Frame(self.root)
+        frame_2 = tk.Frame(self.root)
+        frame_3 = tk.Frame(self.root)
+        frame_4 = tk.Frame(self.root)
+        # set frame_1
+        label1 = tk.Label(frame_1, text='您的话：')
+        self.entry_url = tk.Entry(frame_1, textvariable=self.a, highlightcolor='Fuchsia', highlightthickness=1, width=35)
 
-# 输出 MIT LICENSE
-def mitlicense():
-    print('''
-Copyright (C) 2021-2022  BillMa
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-''')
+        # set frame_3
+        label2 = tk.Label(frame_2, text='回答：')
+        self.entry_path = tk.Text(frame_2,highlightcolor='Fuchsia', highlightthickness=1, width=35)
+        
+        # set frame_2
+        url_path = tk.Button(frame_3, text = "音频开关", font=('楷体', 12), fg='black', width=3, height=-1, command =self.openclose)
+        down = tk.Button(frame_3, text='发送', font=('楷体', 12), fg='black', width=3, height=-1,
+                         command=self.robot_main)
+        
+        label_desc = tk.Label(frame_4, fg='red', font=('楷体', 12),
+                              text='本项目已在GitHub上开源,遵守GNU通用公共许可证(GPL)')
+        label_jnxxhzz = tk.Label(frame_4, fg='red', font=('楷体', 10),
+                              text='Copyright (C) 2022 billma007')
+        frame_1.pack()
+        frame_2.pack()
+        frame_3.pack()
+        frame_4.pack()
+#        label_img.pack(side=tk.RIGHT)
+#        label_img.pack(ipadx=100,ipady=0)
+        label1.grid(row=0, column=0)
+        self.entry_url.grid(row=0, column=1)
 
-# 输出作者联系方式
-def contactau():
-    print("""
-QQ:36937975
-Email: maboning237103015@163.com
-GitHub/Gitee: billma007
-Website:https://billma.top
-""")
+        label2.grid(row=1, column=0,pady=10)
+        self.entry_path.grid(row=1, column=1,pady=10)	
+        
+        url_path.grid(row=1,column=0, ipadx=20,padx = 5)
+        down.grid(row=1, column=3, ipadx=20)
+        label_desc.grid(row=1, column=0)
+        label_jnxxhzz.grid(row=2, column=0)
+    def write(self,info):
+        # info信息即标准输出sys.stdout和sys.stderr接收到的输出信息
+        self.entry_path.insert('end', info)	# 在多行文本控件最后一行插入print信息
+        self.entry_path.update()	# 更新显示的文本，不加这句插入的信息无法显示
+        self.entry_path.see(tk.END)	# 始终显示最后一行，不加这句，当文本溢出控件最后一行时，不会自动显示最后一行
 
-# 开始欢迎界面和如何使用
-def help_about():
-    print('''
-欢迎使用马哥聊天聊天机器人2.4.2 Developer Beta！
-本软件由 BillMa编写，BillMa版权所有，本项目未经允许禁止商用
-本项目已经开源，开源地址：https://github.com/billma007/mgchatrobot2或者在下面输入\"-git\"到达
-本项目使用MIT LICENSE协议，使用该项目的任何部分时请遵守该协议。输入\"-mit\"查看该协议完整内容。
-该版本为内测版本，请及时更新，最新release版本会及时发布在GiHub上
-本网站官方网站：https://robotblog.billma.top(暂时还未开发）
-----------------------------------------------------------------------------------------------
-输入参数：
-1.正常输入则会得到正常回复
-2. -c:更改语音设置
-3. -git:查看项目地址
-4. -mit 查看 MIT LICENSE相关内容
-5. -contact 联系作者
-6. -official 前往官方网站(网站暂未完全开发，暂时无法访问）
-7. -help 或者 -about 本程序的帮助和关于界面
-8, -cls:清除当前页面
-0. -q:结束程序。
-可以开始愉快的聊天了！
-''')
-def robot_main():
-    try:
-        writingdata()
-        help_about()
-        while True:
-            a=input("你：")
-            if a[0]=='-':
-                if a=="-c":
-                    changedata()
-                elif a=="-git":
-                    open_new('https://github.com/billma007/mgchatrobot2')
-                elif a=="-mit":
-                    mitlicense()
-                elif a=="-contact":
-                    contactau()
-                elif a=="-official":
-                    open_new('https://billma.top')
-                elif a=="-help" or a=="-about":
-                    help_about()
-                elif a=="-cls":
-                    os.system("cls")
-                elif a=="-q":
-                    import gobackmain
-                    gobackmain.gobackmain()
-                else:
-                    print("Error:入参错误")
-            else:
-                url='https://api.ownthink.com/bot?appid=9ffcb5785ad9617bf4e64178ac64f7b1&spoken=%s'%a
-                te=get(url).json()
-                data=te['data']['info']['text']
-                print(data)
-                if speaking_open==True:
-                    pt = pyttsx3.init()
-                    pt.say(data)
-                    pt.runAndWait()
-    except Exception as eeee:
-        print("出现错误：",eeee,"即将返回主页面")
+    def robot_main(self):
+        try:
+            print(str('\n您 '+str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))+":\n"+self.a.get()))
+            url='https://api.ownthink.com/bot?appid=9ffcb5785ad9617bf4e64178ac64f7b1&spoken=%s'%self.a.get()
+            te=get(url).json()
+            self.data=te['data']['info']['text']
+            if "马哥" in self.a.get() or "马泊宁" in self.a.get() or "马导" in self.a.get():
+                self.data="马哥是我主人~"
+            if "小思" in self.data:
+                self.data=self.data.replace("小思","马哥聊天机器人")
+            print(str('\n回答 '+str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))+":\n"+self.data))
+            if self.openfinal ==True:
+                self.speak=pyttsx3.init()
+                self.speak.say(self.data)
+                self.speak.runAndWait()
+        except Exception as eeee:
+            pass
+    def cometohere(self):
+        self.root.mainloop()
+
 def cometochat():
-    robot_main()
+    aaaaa=chatmainclass()
+    aaaaa.cometohere()
+
+if __name__=="__main__":
+    cometochat()
