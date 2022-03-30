@@ -4,7 +4,7 @@ A python program which can chat with you,search for weather,download videos,chan
 
 ![ ](https://cdn.jsdelivr.net/gh/billma007/imagesave/mainback.png)
 
-Info:this image:**copyright Billma007 2022**
+Info:this image:**copyright(C) Billma007 2022**
 
 ## language
 
@@ -29,18 +29,18 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf8')
 
 Thank these selfless maker of the modules
 
-|Module|  |用处|
-|------------|------|-----------------------|
-pyttsx3      |**2.71**  |播放语音(聊天)     |
-pillow       |latest    |数据管理           |
-pyperclip    |latest    |复制到剪贴板功能   |
-you-get      |latest    |下载视频           |
-requests     |latest    |爬虫爬取数据/下载  |
-playsound    |**1.2.2** |播放背景音乐       |
-pyecharts    |latest    |疫情数据可视化     |
-openpyxl     |latest    |疫情数据生成Excel  |
-pandas       |latest    |疫情数据整理       |
-tqdm         |latest    |下载进度条         |
+|Module|Edition|Usage|
+|------------|----------|------------------------------|
+pyttsx3      |**2.71**  |Voice message                 |
+pillow       |latest    |data management               |
+pyperclip    |latest    |copy to clipboard             |
+you-get      |latest    |download the video            |
+requests     |latest    |Reptile                       |
+playsound    |**1.2.2** |Muisc play                    |
+pyecharts    |latest    |Visualization of epidemic data|
+openpyxl     |latest    |make excel                    |
+pandas       |latest    |interpretation of data        |
+tqdm         |latest    |progress bar                  |
 
 ## How to compile?
 
@@ -51,7 +51,7 @@ pyinstaller --hidden-import=you_get.cli_wrapper --hidden-import=you_get.processo
 
 ## Structure
 
-This program is divided into the following parts, each of which already contains an independent warehouse, you can click to go to
+This program is divided into the following parts, each of which already contains an independent repo, you can click to go to
 
 - [MAIN](https://github.com/billma007/multifunction)
   - [main.py](main.py) ---make main window
@@ -112,10 +112,10 @@ This program is divided into the following parts, each of which already contains
   - 4. Fixed the bug of clicking stop music after using a function
   - 5. Code structure change: support multiple functions
   - 6. Fixed the bug that some buttons don't move
-  - 7. Due to CDN jsdelivr. He was always drawing air and decided to use fast acceleration. Www. 18fu
+  - 7. Due to CDN jsdelivr,I decided to use fast acceleration. Www. 18fu
 - 3/24/2022 --  1.2.3:
   - 1. Fixed the problem that the music couldn't stop due to the suction of playsound function again
-  - 2. Who the fuck knows fast jsdelivr. Net is also windy, so I decided to double insurance and take the  maximum value between CDN and fast to keep it updated
+  - 2. I decided to double insurance and take the  maximum value between CDN and fast to keep it updated
   - 3. Optimize and update the system and add CDN lines
   - 4. Fixed the bug that some windows and some buttons activate invalid functions
 - 3/24/2022 -- 1.2.3dev1 (Branch) version:
