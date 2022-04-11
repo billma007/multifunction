@@ -1,20 +1,18 @@
 import os
 import tkinter as tk
 import base64
-import icon
 import webbrowser
 import query
 
 
 class Weather:
+    def gotorobot_main(self,event):
+        self.robot_main()
     def __init__(self):
         self.title = '马哥天气查询'
         self.root = tk.Toplevel()
         self.root.title(self.title)
-        with open('tmp.ico','wb') as tmp:
-            tmp.write(base64.b64decode(icon.Icon().ig))
-        self.root.iconbitmap('tmp.ico')
-        os.remove("tmp.ico")
+        self.root.iconbitmap('ico.ico')
         self.a = tk.StringVar()
         self.openfinal = False
         self.root.resizable(False, False)
@@ -43,10 +41,12 @@ class Weather:
                               text='本项目已在GitHub上开源,遵守GNU通用公共许可证(GPL)')
         label_jnxxhzz = tk.Label(frame_4, fg='red', font=('楷体', 10),
                               text='Copyright (C) 2022 billma007')
+        
         frame_1.pack()
         frame_2.pack()
         frame_3.pack()
         frame_4.pack()
+        self.entry_url.bind("<Return>", self.gotorobot_main) 
 #        label_img.pack(side=tk.RIGHT)
 #        label_img.pack(ipadx=100,ipady=0)
         label1.grid(row=0, column=0)

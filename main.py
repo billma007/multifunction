@@ -1,29 +1,33 @@
-import io
 import multiprocessing
 import os
 import sys
-from urllib.request import urlopen
-import icon
+import threading
+import webbrowser
+from covidworld import covidworld_main
 import tkinter as tk
-from os import remove
-from base64 import b64decode
-from PIL import Image,ImageTk
+from PIL import ImageTk,Image
 from chatmain import cometochat
 from weather_tkinter import gotoweather
 from translategui import translateguimain
 from video import videodownloadmain
-from covid import createcovidtoplevel
+from covidcheck import createcovidtoplevel, display_provinces
 from webbrowser import open_new
 from playsound import playsound,PlaysoundException
 import urllib.request
 import tkinter.messagebox
+from small import SysTrayIcon
+import qrcodemake
+import gnugpl3allcopyright
+import goupibutong
 import htmltest
-def getHtml(url):
-    
-    response = urllib.request.urlopen(url)
-    html = response.read()
-    html=html.decode("utf-8")
-    return html 
+import musicdlgui
+def gotosmall(root):
+    musicplay.terminate()
+    root.destroy()
+    a=Smallmake()
+    a.mainmake()
+
+
 def callbackClose():
 
     destroyask=tkinter.messagebox.askokcancel(title="提示",message="真的要退出吗？")
@@ -33,10 +37,11 @@ def callbackClose():
 def playmusic():
     try:
         while True:
-            playsound("https://cdn.jsdelivr.net/gh/billma007/imagesave/multimusic.mp3")
-    except PlaysoundException or Exception:
-        print("PLAY ERROR")
-        
+            passs=''
+            #passs=sys._MEIPASS+'\\'
+            playsound(passs+"multimusic.mp3")
+    except PlaysoundException or Exception or AttributeError:
+        pass
 def go_to_chatrobot():
     print("go to chatrobot...")
     cometochat()
@@ -52,7 +57,19 @@ def go_to_videodown():
 def go_to_covid():
     print("go to videochange...")
     createcovidtoplevel()
-
+def go_to_musicdownload():
+    print("go to musicdown...")
+    try:
+        os.startfile("musicdlgui.exe")
+    except:
+        import musicdlgui
+        threading.Thread(target=musicdlgui.mainstart).start()
+def go_to_gpbt():
+    print('go to gpbt')
+    goupibutong.goupi_main()
+def go_to_check():
+    print('go to check')
+    htmltest.gotoweather()
 def learnmore():
     lm=tk.Toplevel()
     lm.geometry('500x500')
@@ -68,10 +85,11 @@ def learnmore():
 |   如果发生了此事，请通过任务管理器关闭进程
 |
 |-2.在下载视频时会出现进程卡死的情况
-    原因：Threading不支持mainloop的线程多开
-    multiprocessing只能在__name__=="__main__"进行
-    解决办法：别急，过一会会自动开始的
-    （在此之间不要使用其他功能）
+|   原因：Threading不支持mainloop的线程多开
+|   multiprocessing只能在__name__=="__main__"进行
+|   解决办法：别急，过一会会自动开始的
+|   （在此之间不要使用其他功能）
+|-3.最小化托盘时不支持右键快捷抵达
 
 1.如果您有任何问题，请通过以下形式联系我：
 QQ：36937975
@@ -98,6 +116,21 @@ Github Issues:https://github.com/billma007/multifunction/issues
 欢迎联系我，和我探讨更多兴趣
 
 4.更新日志
+|-2022年4月8日---1.4.0版本
+|   |-1.增加了会员音乐下载
+|   |-2.增加了狗屁不通文章生成功能
+|   |-3.增加了全球疫情地图功能
+|   |-4.为了加快启动速度，取消了更新系统
+|   |-5.优化内存，抛弃了pandas库和openpyxl的使用
+|   |-6.修复了7个bug
+|-2022年3月31日--1.3.0版本
+|   |-重大更新：
+|   |    |-1.支持最小化托盘
+|   |    |-2.新增迷你工具箱，更加快捷
+|   |    |-3.支持托盘快捷直达功能
+|   |-一般更新：
+|   |    |-1.支持回车键快捷触发指令
+|   |    |-2.修复了部分按钮无法触发的bug
 |-2022年3月28日--1.2.5版本：
 |   |-1.取消了转码功能
 |   |-2.增加了新冠疫情查询功能
@@ -183,117 +216,282 @@ This Program doesn't support English,but welcome developers from all over the wo
 
 对于开源库作者和API所有者，在此表示感谢
 本软件使用了以下开源库和API：
-you-get，ffmpeg，ffmpeg-python，tqdm，requests，playsound，pillow
+you-get，tqdm，requests，playsound，pillow
 pyttsx3，Youdao Translate(China，有道翻译)，Google Translate
 Turing Robot(China，图灵机器人)，weather.cn(China，中国天气网)
 本软件吉祥物由RUA(免费为我)绘制并已经转让著作权，在此表示感谢
-本软件背景音乐是音乐游戏Phigros的谢幕曲，由Phigros项目组版权所有'''
+本软件背景音乐是音乐游戏Phigros的谢幕曲，由Phigros项目组版权所有
+
+以下是GNU GPL Version3.0的完整版本：
+'''+gnugpl3allcopyright.gnu_gpl3allcopyrigt
     lmtx=tk.Text(lmcp,height=35,width=90)
     lmtx.insert(tk.INSERT,crtxt)
     lmtx.update()
     lmtx.config(state=tk.DISABLED)
     lmtx.pack()
     lmcp.mainloop()
-def mainmake():
-    mainroot = tk.Tk()
-    mainroot.title("马哥多功能程序-------版本1.2.5")
-    mainroot.geometry('1000x673')
-    mainroot.resizable(False,False)
-    mainroot.protocol("WM_DELETE_WINDOW", callbackClose)
 
-    with open('tmp.ico','wb') as tmp:
-        tmp.write(b64decode(icon.Icon().ig))
-    mainroot.iconbitmap('tmp.ico')
-    remove("tmp.ico")
+class Smallmake:
+    def move(self, event):
+        """窗口移动事件"""
+        new_x = (event.x - self.x) + self.mainroot.winfo_x() - 30
+        new_y = (event.y - self.y) + self.mainroot.winfo_y()
+        s = f"{self.window_size}+{new_x}+{new_y}"
+        self.mainroot.geometry(s)
+    def __init__(self):
+        self.x, self.y = 0, 0
+        self.SysTrayIcon  = None
+        self.mainroot = tk.Tk()
+        self.mainroot.wm_attributes('-topmost',1)
+        self.mainroot.attributes("-alpha", 0.7)
+        self.mainroot.bind("<B1-Motion>", self.move)
+        self.mainroot.title("迷你工具栏")
+        self.window_size = '83x280'
+        self.mainroot.geometry(self.window_size)
+        self.mainroot.resizable(False,False)
+        self.mainroot.protocol("WM_DELETE_WINDOW", callbackClose)
+        self.mainroot.iconbitmap('ico.ico')
+        #-----------------------button-----------------#
+        self.label_gjl=tk.Label(self.mainroot,
+            text="工具栏",font=("等线",13))
+        self.button_chat = tk.Button(self.mainroot, 
+            text='AI聊天',      # 显示在按钮上的文字
+            width=10, height=1, 
+            command=lambda:go_to_chatrobot())
+        self.button_weatherui = tk.Button(self.mainroot, 
+            text='天气查询系统',
+            width=10, height=1, 
+            command=lambda:go_to_weather())
+        self.button_transui = tk.Button(self.mainroot, 
+            text='翻译系统',      
+            width=10, height=1, 
+            command=lambda:go_to_transgui())
+        self.button_videodown = tk.Button(self.mainroot, 
+            text='下载视频图片',      
+            width=10, height=1,fg="red",
+            command=lambda:go_to_videodown())
+        self.button_videochange = tk.Button(self.mainroot, 
+            text='疫情查询',      
+            width=10, height=1,fg="red",
+            command=lambda:createcovidtoplevel())
+        self.button_opengithub = tk.Button(self.mainroot, 
+            text='最小化托盘',      
+            width=10, height=1,
+            command=lambda: self.Hidden_window())
+        self.button_openmusic = tk.Button(self.mainroot, 
+            text='音乐下载',      
+            width=10, height=1,
+            command=lambda: go_to_musicdownload())
+        self.button_tran = tk.Button(self.mainroot, 
+            text='传输文件',      
+            width=10, height=1,
+            command=lambda: qrcodemake.makemain())
+        self.button_opengpbt = tk.Button(self.mainroot, 
+            text='狗屁不通',      
+            width=10, height=1,
+            command=lambda: go_to_gpbt())
+        self.label_gjl.pack()
+        self.button_chat.pack()
+        self.button_weatherui.pack()
+        self.button_transui.pack()
+        self.button_videodown.pack()
+        self.button_videochange.pack()
+        self.button_opengithub.pack()
+        self.button_openmusic.pack()
+        self.button_opengpbt.pack()
+    def show_msg(self, title = '标题', msg = '内容', time = 500):
+        self.SysTrayIcon.refresh(title = title, msg = msg, time = time)
+    def Hidden_window(self, hover_text = "马哥多功能工具"):
+        _icon='ico.ico'
+        '''隐藏窗口至托盘区，调用SysTrayIcon的重要函数'''
+        #托盘图标右键菜单, 格式: ('name', None, callback),下面也是二级菜单的例子
+        #24行有自动添加‘退出’，不需要的可删除
+        menu_options = (('聊天机器人', None, go_to_chatrobot),  
+                        ('翻译机', None,go_to_transgui),
+                        ('视频下载',None,go_to_videodown),
+                        ('疫情查询',None,go_to_covid),
+                        ('天气查询',None,go_to_weather),
+                        ('狗屁不通文章生成',None,go_to_gpbt),
+                        ('全网音乐下载',None,go_to_musicdownload),
+                        ('传输文件',None,qrcodemake.makemain))
+        self.mainroot.withdraw()   #隐藏tk窗口
+        if not self.SysTrayIcon: self.SysTrayIcon = SysTrayIcon(
+                                        _icon,               #图标
+                                        hover_text,         #光标停留显示文字
+                                        menu_options,       #右键菜单
+                                        on_quit = lambda:os._exit(0x0),   #退出调用
+                                        tk_window = self.mainroot, #Tk窗口
+                                        )
+        self.SysTrayIcon.activation()
+    def mainmake(self):
+        self.mainroot.bind("<Unmap>", lambda event: self.Hidden_window() if self.mainroot.state() =='iconic' else False) #窗口最小化判断，可以说是调用最重要的一步
+        self.mainroot.mainloop()
 
-    #---------------图片------------------#
-    url = "https://cdn.jsdelivr.net/gh/billma007/imagesave/videodownloadimage.jpg"
-    # 下载图片数据
-    image_bytes = urlopen(url).read()
-    # 将数据存放到data_stream中
-    data_stream = io.BytesIO(image_bytes)
-    # 转换为图片格式
-    pil_image = Image.open(data_stream)
-    # 获取图片的宽度和高度
-    w, h = pil_image.size
-    # 获取图片的文件名
-    fname = url.split('/')[-1]
-    sf = "{} ({}x{})".format(fname, w, h)
-    # 将pil格式的图片转换为tk格式的image
-    tk_image = ImageTk.PhotoImage(pil_image)
-    # 创建个label组件, imageroot作为父节点
-    labelimg = tk.Label(mainroot, image=tk_image, bg='white')
-    # 设置一些padding
-    #-----------------------label------------------#
-    labelwel = tk.Label(mainroot,text="欢迎使用马哥多功能工具！",font=("等线",24))
-    #-----------------------button-----------------#
 
-    button_chat = tk.Button(mainroot, 
-        text='马哥聊天机器人',      # 显示在按钮上的文字
-        width=50, height=2, 
-        command=lambda:go_to_chatrobot())
+class Mainmake:
+    def __init__(self):
+        try:
+            self.passs=sys._MEIPASS+'\\'
+        except:
+            self.passs=''
+        self.SysTrayIcon  = None  # 判断是否打开系统托盘图标
+        self.mainroot = tk.Tk()
+        self.mainroot.title("马哥多功能程序-------版本1.4.0")
+        self.mainroot.geometry('1000x673')
+        self.mainroot.resizable(False,False)
+        self.mainroot.protocol("WM_DELETE_WINDOW", callbackClose)
+        self.mainroot.iconbitmap('ico.ico')
+        #---------------图片------------------#
+        self.pil_image = Image.open(self.passs+"videodownloadimage.jpg")
 
-    button_weatherui = tk.Button(mainroot, 
-        text='天气查询系统',
-        width=50, height=2, 
-        command=lambda:go_to_weather())
-    button_transui = tk.Button(mainroot, 
-        text='翻译机(GUI版)',      
-        width=50, height=2, 
-        command=lambda:go_to_transgui())
-    button_videodown = tk.Button(mainroot, 
-        text='**热门功能**80+网站网页视频爬取下载\n(含bilibili/Youtube等)',      
-        width=50, height=2,fg="red",
-        command=lambda:go_to_videodown())
-    button_videochange = tk.Button(mainroot, 
-        text='全国/各省疫情查询\n支持数据表格化与疫情可视化地图',      
-        width=50, height=2,fg="red",
-        command=lambda:createcovidtoplevel())
-    button_opengithub = tk.Button(mainroot, 
-        text='GitHub开源地址\n使用帮助',      
-        width=14, height=2,
-        command=lambda:open_new("https://github.com/billma007/multifunction"))
-    button_openblog = tk.Button(mainroot, 
-        text='作者博客',      
-        width=14, height=2,
-        command=lambda:open_new("https://billma.top"))
-    button_stopmusic = tk.Button(mainroot, 
-        text='停止音乐',      
-        width=14, height=2,
-        command=lambda:musicplay.terminate())
-    button_learnmore = tk.Button(mainroot,
-        text='了解更多\n如何使用',
-        width=24,height=2,
-        command=lambda:learnmore())
-    button_copyright = tk.Button(mainroot,
-        text='版权协议与许可',
-        width=24,height=2,
-        command=lambda:copyr())
-    labelmore = tk.Label(mainroot,text="""Copyright (C) 2022 BillMa007|BillMa007 版权所有""",font=("等线",12))
-    labelthank=tk.Label(mainroot,text="感谢您的使用！",fg="red",font=("等线",30))
-    labelimg.place(x=400,y=0)
-    labelwel.place(x=0,y=20)
-    button_chat.place(x=0,y=100)
-    button_weatherui.place(x=0,y=170)
-    button_transui.place(x=0,y=240)
-    button_videodown.place(x=0,y=310)
-    button_videochange.place(x=0,y=380)
-    button_openblog.place(x=120,y=450)
-    button_stopmusic.place(x=240,y=450)
-    button_opengithub.place(x=0,y=450)
-    button_learnmore.place(x=0,y=520)
-    labelmore.place(x=0,y=580)
-    button_copyright.place(x=180,y=520)
-    labelthank.place(x=50,y=600)
-    global kkkkk
-    kkkkk=True 
-    mainroot.mainloop()
+        # 将pil格式的图片转换为tk格式的image
+        self.tk_image = ImageTk.PhotoImage(self.pil_image)
+        # 创建个label组件, imageroot作为父节点
+        self.labelimg = tk.Label(self.mainroot, image=self.tk_image, bg='white')
+        # 设置一些padding
+        #-----------------------label------------------#
+        self.labelwel = tk.Label(self.mainroot,text="欢迎使用马哥多功能工具！",font=("等线",24))
+        #-----------------------button-----------------#
+
+        self.button_chat = tk.Button(self.mainroot, 
+            text='马哥聊天机器人',      # 显示在按钮上的文字
+            width=50, height=2, 
+            command=lambda:go_to_chatrobot())
+
+        self.button_weatherui = tk.Button(self.mainroot, 
+            text='天气查询系统',
+            width=50, height=2, 
+            command=lambda:go_to_weather())
+        self.button_transui = tk.Button(self.mainroot, 
+            text='翻译机(GUI版)',      
+            width=50, height=2, 
+            command=lambda:go_to_transgui())
+        self.button_videodown = tk.Button(self.mainroot, 
+            text='**热门功能**80+网站网页视频爬取下载\n(含bilibili/Youtube等)',      
+            width=50, height=2,fg="red",
+            command=lambda:go_to_videodown())
+        self.button_videochange = tk.Button(self.mainroot, 
+            text='全国/各省疫情查询',      
+            width=16, height=2,fg="red",
+            command=lambda:createcovidtoplevel())
+        self.button_covidchina = tk.Button(self.mainroot, 
+            text='全国疫情地图可视化',      
+            width=16, height=2,fg="red",
+            command=lambda:display_provinces())
+        self.button_covidworld = tk.Button(self.mainroot, 
+            text='全球疫情地图可视化',      
+            width=16, height=2,fg="red",
+            command=lambda:covidworld_main())
+        self.button_qrcodemake = tk.Button(self.mainroot,
+            text='跨设备高速文件传输',
+            width=50, height=2,fg='red',
+            command=lambda:qrcodemake.makemain())
+        self.button_musicdown = tk.Button(self.mainroot,
+            text='全网音乐下载\n该功能加载较慢，切勿重复点击',
+            width=50,height=2,fg='red',
+            command=lambda:go_to_musicdownload())
+        self.button_gpbt = tk.Button(self.mainroot,
+            text='狗屁不通文章生成',
+            width=50,height=2,fg='red',
+            command=lambda:go_to_gpbt())
+        self.button_opengithub = tk.Button(self.mainroot, 
+            text='GitHub开源地址',      
+            width=14, height=1,
+            command=lambda:open_new("https://github.com/billma007/multifunction"))
+        self.button_openblog = tk.Button(self.mainroot, 
+            text='作者博客',      
+            width=14, height=1,
+            command=lambda:open_new("https://billma.top"))
+        self.button_stopmusic = tk.Button(self.mainroot, 
+            text='停止音乐',      
+            width=14, height=1,
+            command=lambda:musicplay.terminate())
+        self.button_learnmore = tk.Button(self.mainroot,
+            text='了解更多',
+            width=14,height=1,
+            command=lambda:learnmore())
+        self.button_copyright = tk.Button(self.mainroot,
+            text='版权协议与许可',
+            width=14,height=1,
+            command=lambda:copyr())
+        self.button_small = tk.Button(self.mainroot,
+            text='smart精简版',
+            width=14,height=1,
+            command=lambda:gotosmall(self.mainroot))
+        self.checkupd     = tk.Button(self.mainroot,
+            text='检查更新',
+            width=14,height=1,
+            command=lambda:go_to_check())
+        self.gotohelp     = tk.Button(self.mainroot,
+            text='查看帮助（中文）',
+            width=14,height=1,
+            command=lambda:webbrowser.open("https://github.com/billma007/multifunction/blob/main/README-Chinese.md"))
+        self.gotodoc     = tk.Button(self.mainroot,
+            text='查看文档(完整)',
+            width=14,height=1,
+            command=lambda:webbrowser.open("https://multifunction.readthedocs.io"))
+        self.labelmore = tk.Label(self.mainroot,text="""Copyright (C) 2022 BillMa007|BillMa007 版权所有""",font=("等线",  12))
+        self.labelthank=tk.Label(self.mainroot,text="感谢您的使用！",fg="red",font=("等线",30))
+        self.labelimg.place(x=400,y=0)
+        self.labelwel.place(x=0,y=10)
+        self.button_chat.place(x=0,y=66)
+        self.button_weatherui.place(x=0,y=115)
+        self.button_transui.place(x=0,y=164)
+        self.button_videodown.place(x=0,y=213)
+
+        self.button_videochange.place(x=0,y=262)
+        self.button_covidchina.place(x=120,y=262)
+        self.button_covidworld.place(x=240,y=262)
+
+        self.button_qrcodemake.place(x=0,y=311)
+        self.button_musicdown.place(x=0,y=360)
+        self.button_gpbt.place(x=0,y=408)
+        
+        self.button_openblog.place(x=120,y=455)
+        self.button_stopmusic.place(x=240,y=455)
+        self.button_opengithub.place(x=0,y=455)
+
+        self.checkupd.place(x=0,y=488 )
+        self.gotohelp.place(x=120,y=488)
+        self.gotodoc.place(x=240,y=488)
+
+        self.button_learnmore.place(x=0,y=518)
+        self.labelmore.place(x=0,y=580)
+        self.button_copyright.place(x=120,y=518)
+        self.button_small.place(x=240,y=518)
+        self.labelthank.place(x=50,y=600)
+    def show_msg(self, title = '标题', msg = '内容', time = 500):
+        self.SysTrayIcon.refresh(title = title, msg = msg, time = time)
+    def Hidden_window(self, hover_text = "马哥多功能工具"):
+        '''隐藏窗口至托盘区，调用SysTrayIcon的重要函数'''
+        _icon='ico.ico'
+        #托盘图标右键菜单, 格式: ('name', None, callback),下面也是二级菜单的例子
+        #24行有自动添加‘退出’，不需要的可删除
+        menu_options = (('聊天机器人', None, go_to_chatrobot),  
+                        ('翻译机', None,go_to_transgui),
+                        ('视频下载',None,go_to_videodown),
+                        ('疫情查询',None,go_to_covid),
+                        ('天气查询',None,go_to_weather),
+                        ('狗屁不通文章生成',None,go_to_gpbt),
+                        ('全网音乐下载',None,go_to_musicdownload),
+                        ('传输文件',None,qrcodemake.makemain))
+
+        self.mainroot.withdraw()   #隐藏tk窗口
+        if not self.SysTrayIcon: self.SysTrayIcon = SysTrayIcon(
+                                        _icon,               #图标
+                                        hover_text,         #光标停留显示文字
+                                        menu_options,       #右键菜单
+                                        on_quit = lambda:os._exit(0x0),   #退出调用
+                                        tk_window = self.mainroot, #Tk窗口
+                                        )
+        self.SysTrayIcon.activation()
+    def mainmake(self):
+        self.mainroot.bind("<Unmap>", lambda event: self.Hidden_window() if self.mainroot.state() =='iconic' else False) #窗口最小化判断，可以说是调用最重要的一步
+        self.mainroot.mainloop()
 if __name__ == "__main__":
     multiprocessing.freeze_support()
-    if (("1.2.5" not in str(max(str(getHtml("https://fastly.jsdelivr.net/gh/billma007/imagesave@latest/multifunctionaltoolsupdatecheck.html")),str(getHtml("https://cdn.jsdelivr.net/gh/billma007/imagesave@latest/multifunctionaltoolsupdatecheck.html")),str(getHtml("https://cdn.jsdelivr.net/gh/billma007/imagesave@latest/update/latest.html")),str(getHtml("https://fastly.jsdelivr.net/gh/billma007/imagesave@latest/update/latest.html"))))) and os.path.exists("cancelupdate.txt")==False and os.path.exists("cancelupdate.txt.txt")==False)==True:
-        htmltest.gotoweather()
     global musicplay
     musicplay=multiprocessing.Process(target=playmusic)
     musicplay.start()
-
-    mainmake()
+    aaaaaaaa=Mainmake()
+    aaaaaaaa.mainmake()

@@ -14,6 +14,8 @@ global paste
 
 paste=""
 class Translate():
+    def gotomaain(self,event):
+        self.fanyi()
     def __init__(self):
         self.window = tk.Toplevel()  #创建window窗口
         self.window.title("马哥翻译器GUI1.1")  # 定义窗口名称
@@ -30,7 +32,7 @@ class Translate():
         self.c_button3 = tk.Button(self.window, text='本代码开源，点击前往GitHub了解更多',relief=tk.RAISED,width=24, height=1, command=self.GoToGitHub)
         # 添加一个按钮用于将内容复制到剪贴板
         self.c_button5 = tk.Button(self.window, text='将结果复制到剪贴板',relief=tk.RAISED,width=16, height=1, command=self.copyit)
-
+        self.input.bind("<Return>", self.gotomaain)
         # 添加一张图标
         # self.image_file = tk.PhotoImage(file='py128.png')
         # self.label_image = tk.Label(self.window, image=self.image_file)
@@ -99,3 +101,5 @@ def translateguimain():
     t = Translate()
     t.gui_arrang()
     tk.mainloop()
+if __name__=="__main__":
+    translateguimain()

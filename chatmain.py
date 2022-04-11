@@ -6,7 +6,6 @@ from requests import get
 import os
 # 注意：pyttsx3一定要是2.72版本，高于2.72版本一定会出错！
 import pyttsx3 # 语音
-import icon
 import time
 # speaking_open:判断用户是否打开了语音输出功能
 # speaking_open=False
@@ -88,15 +87,10 @@ class chatmainclass:
 在此表示感谢。'''
 
     def __init__(self):
-        sys.stdout=self
-        sys.stderr=self
         self.title = '马哥聊天机器人GUI1.1'
         self.root = tk.Toplevel()
         self.root.title(self.title) 
-        with open('tmp.ico','wb') as tmp:
-            tmp.write(base64.b64decode(icon.Icon().ig))
-        self.root.iconbitmap('tmp.ico')
-        os.remove("tmp.ico")
+
         self.a = tk.StringVar()
         self.openfinal = False
         self.root.resizable(False, False)
@@ -112,7 +106,7 @@ class chatmainclass:
         # set frame_1
         label1 = tk.Label(frame_1, text='您的话：')
         self.entry_url = tk.Entry(frame_1, textvariable=self.a, highlightcolor='Fuchsia', highlightthickness=1, width=35)
-
+        self.entry_url.bind("<Return>", func=self.gotorobotmain) 
         # set frame_3
         label2 = tk.Label(frame_2, text='回答：')
         self.entry_path = tk.Text(frame_2,highlightcolor='Fuchsia', highlightthickness=1, width=35)
@@ -147,10 +141,11 @@ class chatmainclass:
         self.entry_path.insert('end', info)	# 在多行文本控件最后一行插入print信息
         self.entry_path.update()	# 更新显示的文本，不加这句插入的信息无法显示
         self.entry_path.see(tk.END)	# 始终显示最后一行，不加这句，当文本溢出控件最后一行时，不会自动显示最后一行
-
+    def gotorobotmain(self,event):
+        self.robot_main()
     def robot_main(self):
         try:
-            print(str('\n您 '+str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))+":\n"+self.a.get()))
+            self.write(str('\n您 '+str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))+":\n"+self.a.get()))
             url='https://api.ownthink.com/bot?appid=9ffcb5785ad9617bf4e64178ac64f7b1&spoken=%s'%self.a.get()
             te=get(url).json()
             self.data=te['data']['info']['text']
@@ -158,7 +153,7 @@ class chatmainclass:
                 self.data="马哥是我主人~"
             if "小思" in self.data:
                 self.data=self.data.replace("小思","马哥聊天机器人")
-            print(str('\n回答 '+str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))+":\n"+self.data))
+            self.write(str('\n回答 '+str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))+":\n"+self.data))
             if self.openfinal ==True:
                 self.speak=pyttsx3.init()
                 self.speak.say(self.data)

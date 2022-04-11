@@ -8,7 +8,7 @@ import tkinter.messagebox as msgbox
 from webbrowser import open_new
 import you_get 
 from pyperclip import paste
-import icon
+ 
 import os
 import base64
 import sys
@@ -23,11 +23,12 @@ class Download():
         path_=askdirectory()
         self.path.set(path_)
     def write(self, info):
-        # info信息即标准输出sys.stdout和sys.stderr接收到的输出信息
-        self.t.delete('1.0','end')
-        self.t.insert('end', info)	# 在多行文本控件最后一行插入print信息
-        self.t.update()	# 更新显示的文本，不加这句插入的信息无法显示
-        self.t.see(tkinter.END)	# 始终显示最后一行，不加这句，当文本溢出控件最后一行时，不会自动显示最后一行
+            # info信息即标准输出sys.stdout和sys.stderr接收到的输出信息
+            self.t.delete('1.0','end')
+            self.t.insert('end', info)	# 在多行文本控件最后一行插入print信息
+            self.t.update()	# 更新显示的文本，不加这句插入的信息无法显示
+            self.t.see(tkinter.END)	# 始终显示最后一行，不加这句，当文本溢出控件最后一行时，不会自动显示最后一行
+
     def flush(self):
         pass
     def isatty(self):
@@ -39,10 +40,7 @@ class Download():
         self.title = '马哥视频下载GUI1.1'
         self.root = tk.Toplevel()
         self.root.title(self.title)
-        with open('tmp.ico','wb') as tmp:
-            tmp.write(base64.b64decode(icon.Icon().ig))
-        self.root.iconbitmap('tmp.ico')
-        os.remove("tmp.ico")
+        self.root.iconbitmap('ico.ico')
         self.url = tk.StringVar()
         self.start = tk.IntVar()
         self.end = tk.IntVar()
@@ -53,7 +51,6 @@ class Download():
         self.stderrbak = sys.__stderr__
         # 重定向
         sys.stdout = self
-        sys.stderr = self
         # define frame
         frame_1 = tk.Frame(self.root)
         frame_2 = tk.Frame(self.root)
@@ -117,7 +114,7 @@ class Download():
                 try:
                     msgbox.showwarning(title='警告', message='下载过程中窗口如果出现短暂卡顿说明文件正在下载中！')
 #                        self.root.withdraw()
-                    sys.argv = ['you-get', '-o', path, url]    #sys传递参数执行下载
+                    sys.argv = ['you-get', '-o', path, url,'--debug']    #sys传递参数执行下载
                     you_get.main()
                 except Exception as e:
                     msgbox.showerror(title='警告', message=e)

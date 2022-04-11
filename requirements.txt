@@ -5,6 +5,13 @@ you-get
 requests
 playsound==1.2.2
 pyecharts
-openpyxl
-pandas
 tqdm
+pycryptodome
+requests
+alive-progress
+prettytable
+click
+PyQt5
+netifaces
+qrcode
+colorama; platform_system == "Windows"

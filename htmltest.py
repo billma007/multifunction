@@ -159,9 +159,15 @@ class Down:
     def cometohere(self):
         self.root.protocol("WM_DELETE_WINDOW", callbackreturn)
         self.root.mainloop()
+def checkupdate():
+    return str(max(str(getHtml("https://fastly.jsdelivr.net/gh/billma007/imagesave@latest/multifunctionaltoolsupdatecheck.html")),str(getHtml("https://cdn.jsdelivr.net/gh/billma007/imagesave@latest/multifunctionaltoolsupdatecheck.html")),str(getHtml("https://cdn.jsdelivr.net/gh/billma007/imagesave@latest/update/latest.html")),str(getHtml("https://fastly.jsdelivr.net/gh/billma007/imagesave@latest/update/latest.html"))))
 def gotoweather():
-    asd=Down()
-    asd.cometohere()
+    if '1.4.0'!=checkupdate():
+        asd=Down()
+        asd.cometohere()
+    else:
+        from tkinter import messagebox
+        messagebox.showinfo("成功！","你的版本已经是最新版本！")
 
 if __name__=="__main__":
     gotoweather()
